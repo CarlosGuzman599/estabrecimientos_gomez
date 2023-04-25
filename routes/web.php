@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
+    Route::post('/establecimiento/store', [App\Http\Controllers\EstablecimientoController::class, 'store'])->name('establecimiento.store');
     Route::get('/establecimiento/create', [App\Http\Controllers\EstablecimientoController::class, 'create'])->name('establecimiento.create');
-    Route::get('/establecimiento/edit', [App\Http\Controllers\EstablecimientoController::class, 'edit'])->name('establecimiento.edit'); 
+    Route::get('/establecimiento/edit', [App\Http\Controllers\EstablecimientoController::class, 'edit'])->name('establecimiento.edit');
+    Route::get('/establecimiento/index', [App\Http\Controllers\EstablecimientoController::class, 'index'])->name('establecimiento.index');
 });

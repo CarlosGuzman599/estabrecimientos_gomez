@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorias;
+use App\Models\Establecimiento;
 use App\Models\Localidades;
 use Illuminate\Http\Request;
-use App\Models\Establecimiento;
 
 class EstablecimientoController extends Controller
 {
@@ -16,7 +16,9 @@ class EstablecimientoController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categorias::all();
+        $localidades = Localidades::all();
+        return view('establecimientos.index', compact('categorias','localidades'));
     }
 
     /**
@@ -24,11 +26,28 @@ class EstablecimientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
+        //Establecimiento::create(request()->all());
+/*         $validated = request()->validate([
+            'nombre' => 'required|max:50',
+            'users_id' => 'required',
+            'categorias_id' => 'required',
+            'localidades_id' => 'required',
+            'logo' => 'required',
+            'delivery' => 'required',
+            'direccion' => 'required',
+            'colonia' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'telefono' => 'required|size:10',
+            'descripcion' => 'required|max:255',
+        ]);
+        Establecimiento::create(request()->all());
+        return redirect()->route('home'); */
         $categorias = Categorias::all();
         $localidades = Localidades::all();
         return view('establecimientos.create', compact('categorias','localidades'));
+
     }
 
     /**
@@ -39,7 +58,9 @@ class EstablecimientoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        Establecimiento::create($request->all());
+        return redirect()->route('home');
     }
 
     /**

@@ -30,20 +30,18 @@ class CreateEstablecimientosTable extends Migration
         Schema::create('establecimientos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('categoria_id')->constrained();
-            $table->string('logo');
-            $table->string('localidad');
+            $table->foreignId('users_id')->references('id')->on('users');
+            $table->foreignId('categorias_id')->references('id')->on('categorias');
+            $table->foreignId('localidades_id')->references('id')->on('localidades');
+            $table->string('logo')->nullable();
+            $table->char('delivery');
             $table->string('direccion');
             $table->string('colonia');
             $table->string('lat');
             $table->string('lng');
             $table->string('telefono');
             $table->text('descripcion');
-            $table->string('dias');
-            $table->time('apertura');
-            $table->time('cierre');
-            $table->uuid('uuid');
+            $table->text('horario');
             $table->timestamps();
         });
     }
@@ -57,6 +55,6 @@ class CreateEstablecimientosTable extends Migration
     {
         Schema::dropIfExists('establecimientos');
         Schema::dropIfExists('categorias');
-        Schema::dropIfExists('localidad');
+        Schema::dropIfExists('localidades');
     }
 }

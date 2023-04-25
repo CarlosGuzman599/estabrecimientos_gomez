@@ -1,117 +1,245 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""/>
+@endsection
 
-  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css" integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous" />
-
+@section('scripts')
+<script src="{{ asset('js/establecimientos_create.js') }}" defer></script>
 @endsection
 
 @section('content')
     <div class="container">
         <h4 class="text-center mt-4">Registrar Establecimiento</h4>
         <div class="mt-5 row justify-content-center">
-            <form class="col-md-9 col-xs-12 card card-body"  method="POST" enctype="multipart/form-data">
+            <form class="col-md-9 col-xs-12 card card-body"  method="POST" enctype="multipart/form-data" action="{{ route('establecimiento.store') }}">
                 @csrf
-                <fieldset class="border p-4">
-                    <legend class="text-primary">Nombre, Categoría e Imagen Principal</legend>
+                <div class="form-group">
+                    <label for="nombre">Nombre Establecimiento</label>
+                    <input
+                    id="nombre"
+                    type="text"
+                    class="form-control @error('nombre') is-invalid @enderror "
+                    placeholder="Nombre Establecimiento"
+                    name="nombre"
+                    value="{{ old('nombre') }}"
+                    >
+    
+                    @error('nombre')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+    
+                <div class="form-group">
+                    <label for="nombre">Numero telefonico</label>
+                    <input
+                    id="telefono"
+                    type="tel"
+                    class="form-control @error('telefono') is-invalid @enderror "
+                    placeholder="Telefono	del Establecimiento"
+                    name="telefono"
+                    value="{{ Auth::user()->phone }}"
+                    >
+    
+                    @error('telefono')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+    
+                <div class="form-group">
+                    <label for="categoria">Categoría</label>
+                    <select
+                        class="form-control @error('categorias_id') is-invalid @enderror"
+                        name="categorias_id"
+                        id="categoria"
+                    >
+                        <option value="" selected disabled>-- Seleccione --</option>
+    
+                        @foreach ($categorias as $categoria)
+                        <option
+                            class="text-capitalize"
+                            value="{{$categoria->id}}"
+                            {{ old('categorias_id') == $categoria->id  ? 'selected' : '' }}
+                        >{{$categoria->nombre}}</option>
+                        @endforeach
+                    </select>
+                    @error('categorias_id')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+    
+                <div class="form-group">
+                    <label for="imagen_principal">Imagen Principal</label>
+                    <input
+                    id="imagen_principal"
+                    type="file"
+                    class="form-control @error('imagen_principal') is-invalid @enderror "
+                    name="imagen_principal"
+                    value="{{ old('imagen_principal') }}"
+                    >
+    
+                    @error('imagen_principal')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
 
-                    <div class="form-group">
-                        <label for="nombre">Nombre Establecimiento</label>
-                        <input
-                            id="nombre"
-                            type="text"
-                            class="form-control @error('nombre') is-invalid @enderror "
-                            placeholder="Nombre Establecimiento"
-                            name="nombre"
-                            value="{{ old('nombre') }}"
-                        >
 
-                        @error('nombre')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                        @enderror
+                <div class="form-group">
+                    <label for="delivery">Servicio a domicilio</label>
+                    <select
+                        class="form-control @error('delivery') is-invalid @enderror"
+                        name="delivery"
+                        id="delivery"
+                    >
+                        <option value="" selected disabled>-- Seleccione --</option>
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+    
+                    </select>
+                    @error('delivery')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+    
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <textarea
+                    id="descripcion"
+                    type="text"
+                    class="form-control @error('descripcion') is-invalid @enderror "
+                    placeholder="Descripcion del Establecimiento"
+                    name="descripcion"
+                    value="{{ old('descripcion') }}"
+                    ></textarea>
+    
+                    @error('descripcion')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+
+                <fieldset class="border p-4 mt-5">
+                    <legend class="text-primary">Horarios:</legend>
+                    <input type="hidden" name="horario" id="horario" value='{"day0": {"state0":"","open0":"","close0":""},"day1": {"state1":"","open1":"","close1":""},"day2": {"state2":"","open2":"","close2":""},"day3": {"state3":"","open3":"","close3":""},"day4": {"state4":"","open4":"","close4":""},"day5": {"state5":"","open5":"","close5":""},"day6": {"state6":"","open6":"","close6":""}}'>
+
+                    <label for="localidad">Lunes</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day0">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open0" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close0" name="close" max="23:59:00" min="5:00:00" step="1">
                     </div>
 
-                    <div class="form-group">
-                        <label for="categoria">Categoría</label>
-
-                        <select
-                            class="form-control @error('categoria_id') is-invalid @enderror"
-                            name="categoria_id"
-                            id="categoria"
-                        >
-                            <option value="" selected disabled>-- Seleccione --</option>
-
-                            @foreach ($categorias as $categoria)
-                                <option
-                                    class="text-capitalize"
-                                    value="{{$categoria->id}}"
-                                    {{ old('categoria_id') == $categoria->id  ? 'selected' : '' }}
-                                >{{$categoria->nombre}}</option>
-
-                            @endforeach
-                        </select>
-                        @error('categoria_id')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                        @enderror
+                    <label for="localidad">Martes</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day1">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open1" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close1" name="close" max="23:59:00" min="5:00:00" step="1">
                     </div>
 
-                    <div class="form-group">
-                        <label for="imagen_principal">Imagen Principal</label>
-                        <input
-                            id="imagen_principal"
-                            type="file"
-                            class="form-control @error('imagen_principal') is-invalid @enderror "
-                            name="imagen_principal"
-                            value="{{ old('imagen_principal') }}"
-                        >
+                    <label for="localidad">Miercoles</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day2">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open2" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close2" name="close" max="23:59:00" min="5:00:00" step="1">
+                    </div>
 
-                        @error('imagen_principal')
-                            <div class="invalid-feedback">
-                                {{$message}}
-                            </div>
-                        @enderror
+                    <label for="localidad">Jueves</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day3">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open3" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close3" name="close" max="23:59:00" min="5:00:00" step="1">
+                    </div>
+
+                    <label for="localidad">Viernes</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day4">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open4" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close4" name="close" max="23:59:00" min="5:00:00" step="1">
+                    </div>
+
+                    <label for="localidad">Sabado</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day5">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open5" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close5" name="close" max="23:59:00" min="5:00:00" step="1">
+                    </div>
+
+                    <label for="localidad">Domingo</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <input type="checkbox" aria-label="lunes" class="check update-time" id="day6">
+                          </div>
+                        </div>
+                        <input class="form-control update-time" disabled type="time" id="open6" name="open" max="23:59:00" min="5:00:00" step="1">
+                        <input class="form-control update-time" disabled type="time" id="close6" name="close" max="23:59:00" min="5:00:00" step="1">
                     </div>
 
                 </fieldset>
 
                 <fieldset class="border p-4 mt-5">
                     <legend class="text-primary">Ubicación:</legend>
-
+    
                     <div class="form-group">
                         <label for="localidad">Localidad</label>
-
+        
                         <select
-                            class="form-control @error('localidad_id') is-invalid @enderror"
-                            name="localidad_id"
+                            class="form-control @error('localidades_id') is-invalid @enderror"
+                            name="localidades_id"
                             id="localidad"
                         >
                             <option value="" selected disabled>-- Seleccione --</option>
-
+        
                             @foreach ($localidades as $localidad)
-                                <option
-                                    class="text-capitalize"
-                                    value="{{$localidad->id}}"
-                                    {{ old('categoria_id') == $localidad->id  ? 'selected' : '' }}
-                                >{{$localidad->nombre}}</option>
-
+                            <option
+                                class="text-capitalize"
+                                value="{{$localidad->id}}"
+                                {{ old('localidades_id') == $localidad->id  ? 'selected' : '' }}
+                            >{{$localidad->nombre}}</option>
+        
                             @endforeach
                         </select>
-                        @error('localidad_id')
+                        @error('localidades_id')
                             <div class="invalid-feedback">
-                                {{$message}}
+                            {{$message}}
                             </div>
                         @enderror
                     </div>
-
+    
                     <div class="form-group">
                         <label for="formbuscador">Coloca la dirección del Establecimiento</label>
                         <input
@@ -122,16 +250,14 @@
                         >
                         <p class="text-secondary mt-5 mb-3 text-center">El asistente colocará una dirección estimada o mueve el Pin hacia el lugar correcto</p>
                     </div>
-
+    
                     <div class="form-group">
-                        <div id="mapa" style="height: 400px;"></div>
+                    <div id="mapa" style="height: 400px;"></div>
                     </div>
-
-                    <p class="informacion">Confirma que los siguientes campos son correctos</p>
-
+    
                     <div class="form-group">
                         <label for="direccion">Dirección</label>
-
+        
                         <input
                             type="text"
                             id="direccion"
@@ -146,10 +272,10 @@
                             </div>
                         @enderror
                     </div>
-
+    
                     <div class="form-group">
                         <label for="colonia">Colonia</label>
-
+        
                         <input
                             type="text"
                             id="colonia"
@@ -160,30 +286,24 @@
                         >
                         @error('colonia')
                             <div class="invalid-feedback">
-                                {{$message}}
+                            {{$message}}
                             </div>
                         @enderror
                     </div>
 
-                    <input type="hidden" id="lat" name="lat" value="{{old('lat')}}">
-                    <input type="hidden" id="lng" name="lng" value="{{old('lng')}}">
-
+                    <input type="hidden" id="users_id" name="users_id" value="{{Auth::user()->id}}">
+                    <input type="hidden" id="lat" name="lat" value="0000000">
+                    <input type="hidden" id="lng" name="lng" value="0000000">
                 </fieldset>
 
+                <div class="row">
+                    <a class="col m-4 btn btn-danger" href="{{route('home')}}">Close</a>
+                    <button type="submit" class="col m-4 btn btn-primary">Save</button>
+                </div>
+                
             </form>
         </div>
     </div>
 @endsection
 
-
-@section('scripts')
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-  crossorigin=""></script>
-
-  <script src="https://unpkg.com/esri-leaflet" defer></script>
-  <script src="https://unpkg.com/esri-leaflet-geocoder" defer></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js" integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous" defer></script>
-@endsection
 

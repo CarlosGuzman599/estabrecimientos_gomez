@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Categorias;
+use App\Models\Localidades;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $categorias = Categorias::all();
+        $localidades = Localidades::all();
+        return view('home', compact('categorias','localidades'));
     }
 }
