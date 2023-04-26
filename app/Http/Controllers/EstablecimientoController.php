@@ -46,51 +46,50 @@ class EstablecimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        try{
-            $request->validate([
-                'nombre' => 'required|max:50|unique:establecimientos,nombre',
-                'users_id' => 'required',
-                'categorias_id' => 'required',
-                'localidades_id' => 'required',
-                'logo' => 'nullable|image|max:2048',
-                'delivery' => 'required',
-                'direccion' => 'required',
-                'colonia' => 'required',
-                'lat' => 'required',
-                'lng' => 'required',
-                'telefono' => 'required|size:10',
-                'descripcion' => 'required|max:255',
-                'horario' => 'required',
-            ]);
+        //return $request->all();
 
-            if ( isset($request['logo']) ){
-                $url_logo = $request->file('logo')->store('public/logos');
-                $url = Storage::url($url_logo);
+        $request->validate([
+            'nombre' => 'required|max:50|unique:establecimientos,nombre',
+            'users_id' => 'required',
+            'categorias_id' => 'required',
+            'localidades_id' => 'required',
+            'logo' => 'nullable|image|max:2048',
+            'delivery' => 'required',
+            'direccion' => 'required',
+            'colonia' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'telefono' => 'required|size:10',
+            'descripcion' => 'required|max:255',
+            'horario' => 'required',
+        ]);
 
-                DB::table('establecimientos')->insert([
-                    'nombre' => $request['nombre'],
-                    'users_id' => $request['users_id'],
-                    'categorias_id' => $request['categorias_id'],
-                    'localidades_id' => $request['localidades_id'],
-                    'logo' => $url,
-                    'delivery' => $request['delivery'],
-                    'direccion' => $request['direccion'],
-                    'colonia' => $request['colonia'],
-                    'lat' => $request['lat'],
-                    'lng' => $request['lng'],
-                    'telefono' => $request['telefono'],
-                    'descripcion' => $request['descripcion'],
-                    'horario' => $request['horario'],
-                    'created_at'=>Carbon::now(),
-                    'updated_at'=>Carbon::now()
-                ]); 
-            }else{
-                Establecimiento::create($request->all());
-            }
-            return redirect()->route('home');
-        }catch(Exception $e){
-            echo $e;
+        if ( isset($request['logo']) ){
+            $url_logo = $request->file('logo')->store('public/logos');
+            $url = Storage::url($url_logo);
+
+            DB::table('establecimientos')->insert([
+                'nombre' => $request['nombre'],
+                'users_id' => $request['users_id'],
+                'categorias_id' => $request['categorias_id'],
+                'localidades_id' => $request['localidades_id'],
+                'logo' => $url,
+                'delivery' => $request['delivery'],
+                'direccion' => $request['direccion'],
+                'colonia' => $request['colonia'],
+                'lat' => $request['lat'],
+                'lng' => $request['lng'],
+                'telefono' => $request['telefono'],
+                'descripcion' => $request['descripcion'],
+                'horario' => $request['horario'],
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ]); 
+        }else{
+            Establecimiento::create($request->all());
         }
+        return redirect()->route('home');
+
 
     }
 

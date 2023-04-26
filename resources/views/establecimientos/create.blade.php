@@ -129,7 +129,12 @@
 
                 <fieldset class="border p-4 mt-5">
                     <legend class="text-primary">Horarios:</legend>
-                    <input type="hidden" name="horario" id="horario" value='{"day0": {"state0":"","open0":"","close0":""},"day1": {"state1":"","open1":"","close1":""},"day2": {"state2":"","open2":"","close2":""},"day3": {"state3":"","open3":"","close3":""},"day4": {"state4":"","open4":"","close4":""},"day5": {"state5":"","open5":"","close5":""},"day6": {"state6":"","open6":"","close6":""}}'>
+                    <input 
+                        type="hidden" 
+                        name="horario" 
+                        id="horario" 
+                        value={{ old('horario') }}
+                    >
 
                     <label for="localidad">Lunes</label>
                     <div class="input-group mb-3">

@@ -1,6 +1,14 @@
 $(document).ready(function(){
     console.log('___ CREATE ESTABLECIMIENTO ___')
 
+    //Validation to set default to horario
+    if($('#horario').val() == ''){
+        $('#horario').val('{"day0": {"state0":"","open0":"","close0":""},"day1": {"state1":"","open1":"","close1":""},"day2": {"state2":"","open2":"","close2":""},"day3": {"state3":"","open3":"","close3":""},"day4": {"state4":"","open4":"","close4":""},"day5": {"state5":"","open5":"","close5":""},"day6": {"state6":"","open6":"","close6":""}}')
+    }else{
+        data_time=JSON.parse($('#horario').val());
+        console.log(data_time);
+    }
+
     //set a listener to checkbox component
     $(".check").click(function(){
         value_id=$(this).attr("id").substring(3);
@@ -106,7 +114,6 @@ $(document).ready(function(){
             default:
                 break;
         }
-        console.log(data_time);
         $('#horario').val(JSON.stringify(data_time))
 	});
 
