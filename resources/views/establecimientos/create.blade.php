@@ -10,6 +10,7 @@
 @section('content')
     <div class="container">
         <h4 class="text-center mt-4">Registrar Establecimiento</h4>
+        <!--<img src="/storage/logos/kRSMBxajk8ziMma8KglWVjDXhdLdfLiMKz2dpgD9.png" alt=""> -->
         <div class="mt-5 row justify-content-center">
             <form class="col-md-9 col-xs-12 card card-body"  method="POST" enctype="multipart/form-data" action="{{ route('establecimiento.store') }}">
                 @csrf
@@ -18,7 +19,7 @@
                     <input
                     id="nombre"
                     type="text"
-                    class="form-control @error('nombre') is-invalid @enderror "
+                    class="form-control @error('nombre') is-invalid @enderror text-capitalize"
                     placeholder="Nombre Establecimiento"
                     name="nombre"
                     value="{{ old('nombre') }}"
@@ -74,16 +75,16 @@
                 </div>
     
                 <div class="form-group">
-                    <label for="imagen_principal">Imagen Principal</label>
-                    <input
-                    id="imagen_principal"
-                    type="file"
-                    class="form-control @error('imagen_principal') is-invalid @enderror "
-                    name="imagen_principal"
-                    value="{{ old('imagen_principal') }}"
-                    >
-    
-                    @error('imagen_principal')
+                    <label for="logo">Imagen Principal</label>
+                        <input
+                        id="logo"
+                        type="file"
+                        class="form-control @error('logo') is-invalid @enderror "
+                        name="logo"
+                        accept="image/*"
+                        value="{{ old('logo') }}"
+                    >    
+                    @error('logo')
                     <div class="invalid-feedback">
                         {{$message}}
                     </div>
@@ -98,9 +99,9 @@
                         name="delivery"
                         id="delivery"
                     >
-                        <option value="" selected disabled>-- Seleccione --</option>
-                        <option value="1">Si</option>
-                        <option value="0">No</option>
+                        <option selected disabled>-- Seleccione --</option>
+                        <option value="1" {{ old('delivery') == "1"  ? 'selected' : '' }}>Si</option>
+                        <option value="0" {{ old('delivery') == "0"  ? 'selected' : '' }}>No</option>
     
                     </select>
                     @error('delivery')
@@ -113,13 +114,11 @@
                 <div class="form-group">
                     <label for="descripcion">Descripcion</label>
                     <textarea
-                    id="descripcion"
-                    type="text"
-                    class="form-control @error('descripcion') is-invalid @enderror "
-                    placeholder="Descripcion del Establecimiento"
-                    name="descripcion"
-                    value="{{ old('descripcion') }}"
-                    ></textarea>
+                        id="descripcion"
+                        class="form-control @error('descripcion') is-invalid @enderror"
+                        placeholder="descripcion del Establecimiento"
+                        name="descripcion"
+                    >{{ old('descripcion') }}</textarea>
     
                     @error('descripcion')
                     <div class="invalid-feedback">
@@ -261,7 +260,7 @@
                         <input
                             type="text"
                             id="direccion"
-                            class="form-control @error('direccion') is-invalid @enderror"
+                            class="form-control @error('direccion') is-invalid @enderror text-capitalize"
                             placeholder="Dirección"
                             value="{{old('direccion')}}"
                             name="direccion"
@@ -279,7 +278,7 @@
                         <input
                             type="text"
                             id="colonia"
-                            class="form-control @error('colonia') is-invalid @enderror"
+                            class="form-control @error('colonia') is-invalid @enderror text-capitalize"
                             placeholder="Colonia"
                             value="{{old('colonia')}}"
                             name="colonia"

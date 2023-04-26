@@ -18,6 +18,13 @@ class CategoriaSeeder extends Seeder
     {
         //
         DB::table('categorias')->insert([
+            'nombre'=>'salud animal',
+            'slug'=>Str::slug('sal-ani'),
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        DB::table('categorias')->insert([
             'nombre'=>'comida',
             'slug'=>Str::slug('comida'),
             'created_at'=>Carbon::now(),
