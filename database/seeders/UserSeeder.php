@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TipoUser;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,20 @@ class UserSeeder extends Seeder
     public function run()
     {
         //
+
+
+        TipoUser::create([
+            'name' => 'admin'//1
+        ]);
+
+        TipoUser::create([
+            'name' => 'seller'//2
+        ]);
+
+        TipoUser::create([
+            'name' => 'client'//3
+        ]);
+
         DB::table('users')->insert([
             'name'=>'Carlos Guzman Encarnacion',
             'email'=>'carlilloz.599@gmail.com',

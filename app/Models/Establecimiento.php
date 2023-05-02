@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Localidades;
 
 class Establecimiento extends Model
 {
@@ -46,4 +47,12 @@ class Establecimiento extends Model
      */
     protected $casts = [
     ];
+
+    public function localidad(){
+        return $this->belongsTo(Localidades::class, 'localidades_id', 'id');
+    }
+
+    public function categoria(){
+        return $this->belongsTo(Categorias::class, 'categorias_id', 'id');
+    }
 }

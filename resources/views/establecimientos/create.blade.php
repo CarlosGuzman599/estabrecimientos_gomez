@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
-@section('styles')
-@endsection
-
 @section('scripts')
-<script src="{{ asset('js/establecimientos_create.js') }}" defer></script>
+    <script src="{{ asset('js/establecimientos_create.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -133,7 +130,7 @@
                         type="hidden" 
                         name="horario" 
                         id="horario" 
-                        value={{ old('horario') }}
+                        value='{{ old('horario') }}'
                     >
 
                     <label for="localidad">Lunes</label>

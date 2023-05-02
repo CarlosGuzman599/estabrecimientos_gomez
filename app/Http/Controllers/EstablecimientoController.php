@@ -89,8 +89,6 @@ class EstablecimientoController extends Controller
             Establecimiento::create($request->all());
         }
         return redirect()->route('home');
-
-
     }
 
     /**
@@ -133,8 +131,17 @@ class EstablecimientoController extends Controller
      * @param  \App\Models\Establecimiento  $establecimiento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Establecimiento $establecimiento)
-    {
-        //
+    public function destroy(Establecimiento $establecimiento){
+        try{
+            $data_todele = Establecimiento::find($establecimiento->id);
+            $data_todele->delete();
+            if(!$establecimiento->logo==null){
+                unlink(str_replace('/storage', 'storage', $establecimiento->logo));
+            }
+            return response()->json(['status'=>200] , 200);
+        }catch(Exception $e){
+            //return response()->json(['Error!'=>'ErrorToShow  -> '.$e->getMessage()] , 500);
+            return $e->getMessage();
+        }
     }
 }

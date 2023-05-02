@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Categorias;
-use App\Models\Localidades;
-use Illuminate\Http\Request;
+use App\Models\Establecimiento;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,8 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categorias = Categorias::all();
-        $localidades = Localidades::all();
-        return view('home', compact('categorias','localidades'));
+        $establecimientos_owner = Establecimiento::where('users_id', Auth::id())->get();
+        return view('home', compact('establecimientos_owner'));
     }
 }

@@ -1,29 +1,45 @@
 @extends('layouts.app')
 
-@section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""/>
-
-  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css" integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous" />
-
+@section('scripts')
+  <script src="{{ asset('js/establecimientos_index.js') }}" defer></script>
 @endsection
 
 @section('content')
   <div class="container">
-    <h4 class="text-center mt-4">Home</h4>
+    <h4 class="text-center mt-4 fm-raleway">Mis Negocios</h4>
 
-
-    <div class="mt-5 row justify-content-center">
-      <a class="btn btn-primary" href="{{ route('establecimiento.create') }}">Agregar nuevo</a>
+    <div class="mt-2 row justify-content-end container">
+      <a class="btn-personal btn-primery-personal shadow-lg" href="{{ route('establecimiento.create') }}">Agregar nuevo</a>
     </div>
+
+    <div class="container-bussines border p-4 mt-2 shadow-lg">
+
+      @foreach ($establecimientos_owner as $eo)
+        <div class="bussine-container m-1 row" id="container-{{$eo->id}}">
+          <div class="col-3 p-0 m-0">
+            
+            @if ($eo->logo == null)
+            <img class="bussine-img" src="./img/default.png">
+            @else
+              <img class="bussine-img" src="{{$eo->logo}}" alt="./img/default.png">
+            @endif
+          </div>
+          <div class="col-5 p-0 m-0 text-center">
+            <p class="bussine-name">{{$eo->nombre}}</p>
+            <p class="bussine-detail">{{$eo->localidad['nombre']}} · <span class="text-capitalize">{{$eo->categoria['nombre']}}</span></p>
+          </div>
+          
+          <div class="col-4 row ml-1" name="{{$eo->nombre}}" id="{{$eo->id}}">
+            <i class="btn-function far fa-eye"></i>
+            <i class="btn-function far fa-edit"></i>
+            <i class="btn-function far fa-trash-alt"></i>
+          </div>
+          
+        </div>
+      @endforeach
+
+    </div> 
   </div>
 @endsection
 
-
-@section('scripts')
-
-@endsection
 

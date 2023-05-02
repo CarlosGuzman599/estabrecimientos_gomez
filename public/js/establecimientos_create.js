@@ -6,7 +6,23 @@ $(document).ready(function(){
         $('#horario').val('{"day0": {"state0":"","open0":"","close0":""},"day1": {"state1":"","open1":"","close1":""},"day2": {"state2":"","open2":"","close2":""},"day3": {"state3":"","open3":"","close3":""},"day4": {"state4":"","open4":"","close4":""},"day5": {"state5":"","open5":"","close5":""},"day6": {"state6":"","open6":"","close6":""}}')
     }else{
         data_time=JSON.parse($('#horario').val());
-        console.log(data_time);
+        helper_set_values_days(0, data_time.day0.state0, data_time.day0.open0, data_time.day0.close0);
+        helper_set_values_days(1, data_time.day1.state1, data_time.day1.open1, data_time.day1.close1);
+        helper_set_values_days(2, data_time.day2.state2, data_time.day2.open2, data_time.day2.close2);
+        helper_set_values_days(3, data_time.day3.state3, data_time.day3.open3, data_time.day3.close3);
+        helper_set_values_days(4, data_time.day4.state4, data_time.day4.open4, data_time.day4.close4);
+        helper_set_values_days(5, data_time.day5.state5, data_time.day5.open5, data_time.day5.close5);
+        helper_set_values_days(6, data_time.day6.state6, data_time.day6.open6, data_time.day6.close6);
+    }
+
+    function helper_set_values_days(numberDay, stateValue, openValue, closeValue){
+        if(stateValue == '1'){
+            $('#day'+numberDay).prop( "checked", true );
+            $('#open'+numberDay).removeAttr('disabled');
+            $('#close'+numberDay).removeAttr('disabled');
+        }
+        $('#open'+numberDay).val(openValue);
+        $('#close'+numberDay).val(closeValue);
     }
 
     //set a listener to checkbox component
@@ -28,31 +44,31 @@ $(document).ready(function(){
 
         switch (value_id) {
             case "day0":
-                data_time.day0.state0 = helper_day_sate(value_id);
+                data_time.day0.state0 = helper_day_state(value_id);
                 break;
 
             case "day1":
-                data_time.day1.state1 = helper_day_sate(value_id);
+                data_time.day1.state1 = helper_day_state(value_id);
                 break;
 
             case "day2":
-                data_time.day2.state2 = helper_day_sate(value_id);
+                data_time.day2.state2 = helper_day_state(value_id);
                 break;
                 
             case "day3":
-                data_time.day3.state3 = helper_day_sate(value_id);
+                data_time.day3.state3 = helper_day_state(value_id);
                 break;
 
             case "day4":
-                data_time.day4.state4 = helper_day_sate(value_id);
+                data_time.day4.state4 = helper_day_state(value_id);
                 break;
 
             case "day5":
-                data_time.day5.state5 = helper_day_sate(value_id);
+                data_time.day5.state5 = helper_day_state(value_id);
                 break;
 
             case "day6":
-                data_time.day6.state6 = helper_day_sate(value_id);
+                data_time.day6.state6 = helper_day_state(value_id);
                 break;
                 
             case "open0":
@@ -117,7 +133,7 @@ $(document).ready(function(){
         $('#horario').val(JSON.stringify(data_time))
 	});
 
-    function helper_day_sate(e){
+    function helper_day_state(e){
         if( $('#'+e).is(':checked') ) {
             return '1';
         }else{
