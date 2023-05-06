@@ -46,7 +46,6 @@ class EstablecimientoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        //return $request->all();
 
         $request->validate([
             'nombre' => 'required|max:50|unique:establecimientos,nombre',
@@ -110,7 +109,9 @@ class EstablecimientoController extends Controller
      */
     public function edit(Establecimiento $establecimiento)
     {
-        return "Desde Edit";
+        $categorias = Categorias::all();
+        $localidades = Localidades::all();
+        return view('establecimientos.edit', compact('categorias','localidades', 'establecimiento'));
     }
 
     /**
@@ -122,7 +123,57 @@ class EstablecimientoController extends Controller
      */
     public function update(Request $request, Establecimiento $establecimiento)
     {
-        //
+        $establecimiento = Establecimiento::find($request->id);
+        if(! ($request->nombre == $establecimiento->nombre)){
+            $request->validate([
+                'nombre' => 'required|max:50|unique:establecimientos,nombre',
+            ]);
+        }
+
+        $request->validate([
+            'users_id' => 'required',
+            'categorias_id' => 'required',
+            'localidades_id' => 'required',
+            'logo' => 'nullable|image|max:2048',
+            'delivery' => 'required',
+            'direccion' => 'required',
+            'colonia' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'telefono' => 'required|size:10',
+            'descripcion' => 'required|max:255',
+            'horario' => 'required',
+        ]);
+
+        if ( isset($request['logo']) ){
+            $url_logo = $request->file('logo')->store('public/logos');
+            $url = Storage::url($url_logo);
+
+            if(!$establecimiento->logo==null){
+                unlink(str_replace('/storage', 'storage', $establecimiento->logo));
+            }
+
+            $establecimiento->logo =  $url;
+            
+        }
+
+        $establecimiento->nombre =  $request['nombre'];
+        $establecimiento->users_id =  $request['users_id'];
+        $establecimiento->categorias_id =  $request['categorias_id'];
+        $establecimiento->localidades_id =  $request['localidades_id'];
+        $establecimiento->delivery =  $request['delivery'];
+        $establecimiento->direccion =  $request['direccion'];
+        $establecimiento->colonia =  $request['colonia'];
+        $establecimiento->lat =  $request['lat'];
+        $establecimiento->lng =  $request['lng'];
+        $establecimiento->telefono =  $request['telefono'];
+        $establecimiento->descripcion =  $request['descripcion'];
+        $establecimiento->horario =  $request['horario'];
+        $establecimiento->updated_at= Carbon::now();
+
+        $establecimiento->save();
+
+        return redirect()->route('home');
     }
 
     /**
@@ -133,8 +184,8 @@ class EstablecimientoController extends Controller
      */
     public function destroy(Establecimiento $establecimiento){
         try{
-            $data_todele = Establecimiento::find($establecimiento->id);
-            $data_todele->delete();
+            $data_todelete = Establecimiento::find($establecimiento->id);
+            $data_todelete->delete();
             if(!$establecimiento->logo==null){
                 unlink(str_replace('/storage', 'storage', $establecimiento->logo));
             }

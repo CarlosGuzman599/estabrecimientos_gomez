@@ -31,7 +31,7 @@
           
           <div class="col-4 row ml-1" name="{{$eo->nombre}}" id="{{$eo->id}}">
             <i class="btn-function far fa-eye"></i>
-            <i class="btn-function far fa-edit"></i>
+            <a class="btn-function no-hover" href="{{ route('establecimiento.edit', $eo->id) }}"><i class="far fa-edit"></i></a>
             <i class="btn-function far fa-trash-alt"></i>
           </div>
           

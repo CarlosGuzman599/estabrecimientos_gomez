@@ -37,7 +37,7 @@
                     class="form-control @error('telefono') is-invalid @enderror "
                     placeholder="Telefono	del Establecimiento"
                     name="telefono"
-                    value="{{ Auth::user()->phone }}"
+                    value="{{ old('telefono',Auth::user()->phone) }}"
                     >
     
                     @error('telefono')

@@ -10,28 +10,31 @@ $(document).ready(function(){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si, eliminarlo!'
-        }).then(() => {
-            $('#container-'+$(this).parent().attr('id')).remove();
-            $.ajax({
-                type: "delete",
-                url: "/establecimiento/destroy/"+$(this).parent().attr('id'),
-                data: {_token: $('meta[name="csrf-token"]').attr('content')},
-                success:function (response) {
-                    if(response.status == 200){
-                        Swal.fire(
-                            'Eliminado!',
-                            'El establecimiento ah sido eliminado',
-                            'success'
-                        )
-                    }else{
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Ocurrio un error: '+response
-                        })
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#container-'+$(this).parent().attr('id')).remove();
+                $.ajax({
+                    type: "delete",
+                    url: "/establecimiento/destroy/"+$(this).parent().attr('id'),
+                    data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                    success:function (response) {
+                        if(response.status == 200){
+                            Swal.fire(
+                                'Eliminado!',
+                                'El establecimiento ah sido eliminado',
+                                'success'
+                            )
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Ocurrio un error: '+response
+                            })
+                        }
                     }
-                }
-            });
+                });
+            }
+
         });
 
     });
