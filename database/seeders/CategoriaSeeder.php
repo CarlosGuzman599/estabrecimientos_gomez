@@ -32,6 +32,13 @@ class CategoriaSeeder extends Seeder
         ]);
 
         DB::table('categorias')->insert([
+            'nombre'=>'mano de obra',
+            'slug'=>Str::slug('mano-obra'),
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        DB::table('categorias')->insert([
             'nombre'=>'gimnasio',
             'slug'=>Str::slug('gimnasio'),
             'created_at'=>Carbon::now(),

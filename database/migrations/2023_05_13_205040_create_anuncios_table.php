@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipoUsersTable extends Migration
+class CreateAnunciosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTipoUsersTable extends Migration
      */
     public function up()
     {
-        
+
     }
 
     /**
@@ -23,6 +23,6 @@ class CreateTipoUsersTable extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('tipo_users');
+        //Schema::dropIfExists('anuncios');
     }
 }

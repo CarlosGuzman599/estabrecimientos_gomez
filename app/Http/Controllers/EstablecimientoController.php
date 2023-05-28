@@ -98,7 +98,7 @@ class EstablecimientoController extends Controller
      */
     public function show(Establecimiento $establecimiento)
     {
-        //
+        return view('establecimientos.show', compact('establecimiento'));
     }
 
     /**

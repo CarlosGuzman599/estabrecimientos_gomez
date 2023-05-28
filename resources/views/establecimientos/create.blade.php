@@ -30,7 +30,7 @@
                 </div>
     
                 <div class="form-group">
-                    <label for="nombre">Numero telefonico</label>
+                    <label for="telefono">Numero telefonico</label>
                     <input
                     id="telefono"
                     type="tel"
@@ -298,7 +298,7 @@
                 </fieldset>
 
                 <div class="row">
-                    <a class="col m-4 btn btn-danger" href="{{route('home')}}">Close</a>
+                    <a class="col m-4 btn btn-danger" href="{{route('home')}}">Cancelar</a>
                     <button type="submit" class="col m-4 btn btn-primary">Save</button>
                 </div>
                 
