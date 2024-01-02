@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anuncios;
 use Exception;
 
 use Carbon\Carbon;
@@ -48,7 +49,7 @@ class EstablecimientoController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'nombre' => 'required|max:50|unique:establecimientos,nombre',
+            'nombre' => 'required|max:30|unique:establecimientos,nombre',
             'users_id' => 'required',
             'categorias_id' => 'required',
             'localidades_id' => 'required',
@@ -98,7 +99,8 @@ class EstablecimientoController extends Controller
      */
     public function show(Establecimiento $establecimiento)
     {
-        return view('establecimientos.show', compact('establecimiento'));
+        $anuncios = Anuncios::where('establecimientos_id', $establecimiento->id)->get();
+        return view('establecimientos.show', compact('establecimiento', 'anuncios'));
     }
 
     /**

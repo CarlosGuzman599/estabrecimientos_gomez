@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Tiempos;
 use App\Models\Anuncios;
 use App\Models\Establecimiento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreAnunciosRequest;
 use App\Http\Requests\UpdateAnunciosRequest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -46,29 +46,30 @@ class AnunciosController extends Controller
 
         if($request->establecimientos_id){
             $request->validate([
-                'titulo' => 'required|max:50',
+                'titulo' => 'required|max:25',
                 'img' => 'nullable|image|max:2048',
                 'descripcion' => 'required|max:255',
                 'tiempos_id' => 'required',
             ]);
-
 
             if(isset($request['img'])){
                 $url_img = $request->file('img')->store('public/anuncios');
                 $url = Storage::url($url_img);
                 DB::table('anuncios')->insert([
                     'establecimientos_id' => $request['establecimientos_id'],
+                    'localidades_id' => $request['localidades_id'],
                     'users_id' => $request['users_id'],
                     'titulo' => $request['titulo'],
                     'img' => $url,
                     'descripcion' => $request['descripcion'],
                     'tiempos_id' => $request['tiempos_id'],
+                    'created_at'=>Carbon::now(),
+                    'updated_at'=>Carbon::now()
                 ]); 
             }else{
                 Anuncios::create($request->all());
             }
-
-            return $request;
+            return redirect()->route('establecimiento.show', $request['establecimientos_id']);
 
         }else{
             return 'usuario'; 
@@ -92,9 +93,11 @@ class AnunciosController extends Controller
      * @param  \App\Models\Anuncios  $anuncios
      * @return \Illuminate\Http\Response
      */
-    public function edit(Anuncios $anuncios)
+    public function edit(Anuncios $anuncio)
     {
-        //
+        $tiempos = Tiempos::all();
+        $establecimiento = Establecimiento::find($anuncio->establecimientos_id);
+        return view('anuncios.anuncio_establecimiento_edit', compact('tiempos', 'establecimiento', 'anuncio'));
     }
 
     /**

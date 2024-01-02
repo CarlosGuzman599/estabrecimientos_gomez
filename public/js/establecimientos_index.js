@@ -1,7 +1,7 @@
 $(document).ready(function(){
     console.log('___ INDEX ESTABLECIMIENTO ___')
 
-    $('.fa-trash-alt').on('click', function(){
+    $('.delete-establecimiento').on('click', function(){
         Swal.fire({
             title: 'Eliminar!',
             text: "Estas seguro que deceas eliminar "+$(this).parent().attr('name')+"?",

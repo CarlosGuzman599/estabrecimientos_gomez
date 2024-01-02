@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\WelcomeController::class, 'welcome'])->name('welcome');
 
 Auth::routes();
 
@@ -33,4 +31,5 @@ Route::middleware(['auth'])->group(function () {
     //ANUNCIOS
     Route::get('/anuncio_establecimiento/create/{id}', [App\Http\Controllers\AnunciosController::class, 'anuncio_establecimiento_create'])->name('anuncio_establecimiento.create');
     Route::post('/anuncio_establecimiento/store', [App\Http\Controllers\AnunciosController::class, 'store'])->name('anuncio_establecimiento.store');
+    Route::get('/anuncio_establecimiento/edit/{anuncio}', [App\Http\Controllers\AnunciosController::class, 'edit'])->name('anuncio_establecimiento.edit');
 });

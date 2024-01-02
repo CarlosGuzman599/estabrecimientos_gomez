@@ -44,4 +44,16 @@ class Anuncios extends Model
      */
     protected $casts = [
     ];
+
+    public function establecimiento(){
+        return $this->belongsTo(Establecimiento::class, 'establecimientos_id', 'id');
+    }
+
+    public function tiempos(){
+        return $this->belongsTo(Tiempos::class, 'tiempos_id', 'id');
+    }
+
+    public function localidad(){
+        return $this->belongsTo(Localidades::class, 'localidades_id', 'id');
+    }
 }

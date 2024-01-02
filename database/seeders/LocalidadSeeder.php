@@ -17,12 +17,6 @@ class LocalidadSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('localidades')->insert([
-            'nombre'=>'San Andres',
-            'slug'=>Str::slug('san-andres'),
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now()
-        ]);
 
         DB::table('localidades')->insert([
             'nombre'=>'San Sebastian',
@@ -32,8 +26,8 @@ class LocalidadSeeder extends Seeder
         ]);
 
         DB::table('localidades')->insert([
-            'nombre'=>'El Rodeo',
-            'slug'=>Str::slug('rodeo'),
+            'nombre'=>'San Andres',
+            'slug'=>Str::slug('san-andres'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);
@@ -41,6 +35,13 @@ class LocalidadSeeder extends Seeder
         DB::table('localidades')->insert([
             'nombre'=>'Cofradia Del Rosario',
             'slug'=>Str::slug('cofradia'),
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()
+        ]);
+
+        DB::table('localidades')->insert([
+            'nombre'=>'El Rodeo',
+            'slug'=>Str::slug('rodeo'),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);

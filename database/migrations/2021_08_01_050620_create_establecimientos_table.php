@@ -20,13 +20,6 @@ class CreateEstablecimientosTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('localidades', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->string('slug');
-            $table->timestamps();
-        });
-
         Schema::create('status', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
