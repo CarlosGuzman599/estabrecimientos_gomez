@@ -9,7 +9,7 @@
         <h4 class="text-center mt-4">Editar Establecimiento</h4>
 
         <div class="mt-5 row justify-content-center">
-            <form class="col-md-9 col-xs-12 card card-body"  method="POST" enctype="multipart/form-data" action="{{ route('establecimiento.update', $establecimiento->id) }}">
+            <form class="col-md-9 col-xs-12 card card-body" method="POST" enctype="multipart/form-data" action="{{ route('establecimiento.update', $establecimiento->id) }}">
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="form-group">
@@ -95,13 +95,33 @@
                         <p class="bussine-detail">Imagen actual</p>
 
                         @if ($establecimiento->logo == null)
-                            <img class="bussine-img" src="/img/default.png">
+                            <img class="bussine-img" src="/storage/logos/default/{{$establecimiento->categorias_id}}.png">
                         @else
-                          <img class="bussine-img" src="{{$establecimiento->logo}}" alt="./img/default.png">
+                            <img class="bussine-img" src="{{$establecimiento->logo}}" alt="/storage/logos/default.png">
                         @endif
 
                     </div>
 
+                </div>
+
+                <div class="form-group">
+                    <label for="protection">Proctecion</label>
+                    <p class="bussine-detail mt-0 color-red">Esta funcion permite mostrar o ocultar numero telefonico a personas no registradas en la aplicacion. Aplica en anuncios</p>
+                    <select
+                        class="form-control @error('protection') is-invalid @enderror"
+                        name="protection"
+                        id="protection"
+                    >
+                        <option selected disabled>-- Seleccione --</option>
+                        <option value="1" {{ old('protection', $establecimiento->protection) == "1"  ? 'selected' : '' }}>Si</option>
+                        <option value="0" {{ old('protection', $establecimiento->protection) == "0"  ? 'selected' : '' }}>No</option>
+    
+                    </select>
+                    @error('protection')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
                 </div>
 
                 <div class="form-group">

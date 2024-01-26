@@ -24,12 +24,39 @@ class WelcomeController extends Controller
      */
     public function welcome()
     {
-        $anuncio_near = null;
+        $anuncio_near = [];
+        $location = 1;
         if(Auth::user()){
-            $anuncio_near = Anuncios::where('localidades_id', Auth::user()->localidad_users_id)->get();
-        }else{
-            $anuncio_near = Anuncios::where('localidades_id', 1)->get();
+            $location = Auth::user()->localidad_users_id;
         }
+
+        $order_show = array(1, 2, 3, 4, 5, 6);
+
+        switch ($location) {
+            case 2:
+                $order_show = array(2, 1, 3, 4, 5, 6);
+                break;
+            case 3:
+                $order_show = array(3, 1, 2, 4, 5, 6);
+                break;
+            case 4:
+                $order_show = array(4, 2, 1, 3, 5, 6);
+                break;
+            case 5:
+                $order_show = array(5, 6, 2, 4, 1, 3);
+                break;
+            case 6:
+                $order_show = array(6, 5, 2, 4, 3, 1);
+                break;
+        }
+
+        foreach($order_show as $to_show){
+            $anuncios = Anuncios::where('localidades_id', $to_show)->get();
+            foreach($anuncios as $anuncio){
+                array_push($anuncio_near, $anuncio);
+            }
+        }
+
         return view('welcome', compact('anuncio_near'));
     }
 }

@@ -22,6 +22,7 @@ class Establecimiento extends Model
         'categorias_id',
         'localidades_id',
         'logo',
+        'protection',
         'delivery',
         'direccion',
         'colonia',

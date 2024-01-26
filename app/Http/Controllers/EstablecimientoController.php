@@ -54,6 +54,7 @@ class EstablecimientoController extends Controller
             'categorias_id' => 'required',
             'localidades_id' => 'required',
             'logo' => 'nullable|image|max:2048',
+            'protection' => 'required',
             'delivery' => 'required',
             'direccion' => 'required',
             'colonia' => 'required',
@@ -74,6 +75,7 @@ class EstablecimientoController extends Controller
                 'categorias_id' => $request['categorias_id'],
                 'localidades_id' => $request['localidades_id'],
                 'logo' => $url,
+                'protection' => $request['protection'],
                 'delivery' => $request['delivery'],
                 'direccion' => $request['direccion'],
                 'colonia' => $request['colonia'],
@@ -127,9 +129,7 @@ class EstablecimientoController extends Controller
     {
         $establecimiento = Establecimiento::find($request->id);
         if(! ($request->nombre == $establecimiento->nombre)){
-            $request->validate([
-                'nombre' => 'required|max:50|unique:establecimientos,nombre',
-            ]);
+            $request->validate(['nombre' => 'required|max:50|unique:establecimientos,nombre']);
         }
 
         $request->validate([
@@ -137,6 +137,7 @@ class EstablecimientoController extends Controller
             'categorias_id' => 'required',
             'localidades_id' => 'required',
             'logo' => 'nullable|image|max:2048',
+            'protection' => 'required',
             'delivery' => 'required',
             'direccion' => 'required',
             'colonia' => 'required',
@@ -159,19 +160,20 @@ class EstablecimientoController extends Controller
             
         }
 
-        $establecimiento->nombre =  $request['nombre'];
-        $establecimiento->users_id =  $request['users_id'];
-        $establecimiento->categorias_id =  $request['categorias_id'];
-        $establecimiento->localidades_id =  $request['localidades_id'];
-        $establecimiento->delivery =  $request['delivery'];
-        $establecimiento->direccion =  $request['direccion'];
-        $establecimiento->colonia =  $request['colonia'];
-        $establecimiento->lat =  $request['lat'];
-        $establecimiento->lng =  $request['lng'];
-        $establecimiento->telefono =  $request['telefono'];
-        $establecimiento->descripcion =  $request['descripcion'];
-        $establecimiento->horario =  $request['horario'];
-        $establecimiento->updated_at= Carbon::now();
+        $establecimiento->nombre = $request['nombre'];
+        $establecimiento->users_id = $request['users_id'];
+        $establecimiento->categorias_id = $request['categorias_id'];
+        $establecimiento->localidades_id = $request['localidades_id'];
+        $establecimiento->protection = $request['protection'];
+        $establecimiento->delivery = $request['delivery'];
+        $establecimiento->direccion = $request['direccion'];
+        $establecimiento->colonia = $request['colonia'];
+        $establecimiento->lat = $request['lat'];
+        $establecimiento->lng = $request['lng'];
+        $establecimiento->telefono = $request['telefono'];
+        $establecimiento->descripcion = $request['descripcion'];
+        $establecimiento->horario = $request['horario'];
+        $establecimiento->updated_at = Carbon::now();
 
         $establecimiento->save();
 
@@ -186,8 +188,16 @@ class EstablecimientoController extends Controller
      */
     public function destroy(Establecimiento $establecimiento){
         try{
-            $data_todelete = Establecimiento::find($establecimiento->id);
-            $data_todelete->delete();
+            $anuncios = Anuncios::where('establecimientos_id', $establecimiento->id)->get();
+            Anuncios::where('establecimientos_id', $establecimiento->id)->delete();
+
+            foreach($anuncios as $anuncio){
+                if(!$anuncio->img==null){
+                    unlink(str_replace('/storage', 'storage', $anuncio->img));
+                }
+            }
+
+            $establecimiento->delete();
             if(!$establecimiento->logo==null){
                 unlink(str_replace('/storage', 'storage', $establecimiento->logo));
             }

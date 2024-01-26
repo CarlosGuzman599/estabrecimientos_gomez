@@ -15,10 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'welcome'])->name('welcome');
-
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/establecimiento/store', [App\Http\Controllers\EstablecimientoController::class, 'store'])->name('establecimiento.store');
     Route::get('/establecimiento/create', [App\Http\Controllers\EstablecimientoController::class, 'create'])->name('establecimiento.create');
@@ -32,4 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/anuncio_establecimiento/create/{id}', [App\Http\Controllers\AnunciosController::class, 'anuncio_establecimiento_create'])->name('anuncio_establecimiento.create');
     Route::post('/anuncio_establecimiento/store', [App\Http\Controllers\AnunciosController::class, 'store'])->name('anuncio_establecimiento.store');
     Route::get('/anuncio_establecimiento/edit/{anuncio}', [App\Http\Controllers\AnunciosController::class, 'edit'])->name('anuncio_establecimiento.edit');
+    Route::put('/anuncio_establecimiento/update/{id}', [App\Http\Controllers\AnunciosController::class, 'update'])->name('anuncio_establecimiento.update');
+    Route::delete('/anuncio_establecimiento/destroy/{anuncio}', [App\Http\Controllers\AnunciosController::class, 'destroy'])->name('anuncio_establecimiento.destroy');
 });
+
+//ANUNCIOS AUTH NO REQUIRE
+Route::get('/anuncio_establecimiento/show/{anuncios}', [App\Http\Controllers\AnunciosController::class, 'show'])->name('anuncio_establecimiento.show');//JSON RESPONSE ONLY

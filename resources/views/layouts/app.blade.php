@@ -35,10 +35,21 @@
 </head>
 <body>
     <div id="app" class="bg-ranita-wallpaper fm-sans">
-        <nav class="navbar navbar-expand-md navbar-light bg-ranita shadow rounded-bottom navbar-personal">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}"><img src="/img/icon.png" alt="" class="icon"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+
+        <div class="row justify-content-center">
+            <div class="notification-space px-3 text-center mb-3" id="notification">
+                <p class="mt-3 mb-0 text-bold fm-releway" id="notification-header"></p>
+                <P class="mt-0 fm-releway" id="notification-message">message</P>
+            </div>
+        </div>
+
+        <nav class="row navbar navbar-expand-md navbar-light bg-ranita shadow rounded-bottom navbar-personal justify-content-center">
+            <div class="container row justify-content-between">
+                <a class="navbar-brand col" href="{{ url('/') }}"><img src="/img/icon.png" alt="" class="icon"></a>
+
+                <input id="search-welcome" type="text" class="form-control text-capitalize input-search fm-raleway text-center my-3" placeholder="Buscar" name="search-welcome" value="{{ old('search-welcome') }}">
+                
+                <button class="navbar-toggler col" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -49,7 +60,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto align-items-center">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -85,9 +96,14 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="height:99%">
             @yield('content')
         </main>
+
+        <div class="container-footer bg-ranita justify-content-center p-1 shadow-in-img">
+            <p class="m-0 color-white">Todos los derechos reservados &copy <span>Ranita</span> 2024</p>
+        </div>
+
     </div>
 
 </body>

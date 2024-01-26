@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\Tiempos;
 use App\Models\Anuncios;
+use Illuminate\Http\Request;
 use App\Models\Establecimiento;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UpdateAnunciosRequest;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class AnunciosController extends Controller
 {
@@ -43,11 +45,10 @@ class AnunciosController extends Controller
      */
     public function store(Request $request)
     {
-
         if($request->establecimientos_id){
             $request->validate([
                 'titulo' => 'required|max:25',
-                'img' => 'nullable|image|max:2048',
+                'img' => 'required|image|max:2048',
                 'descripcion' => 'required|max:255',
                 'tiempos_id' => 'required',
             ]);
@@ -60,6 +61,7 @@ class AnunciosController extends Controller
                     'localidades_id' => $request['localidades_id'],
                     'users_id' => $request['users_id'],
                     'titulo' => $request['titulo'],
+                    'categorias_id' => $request['categorias_id'],
                     'img' => $url,
                     'descripcion' => $request['descripcion'],
                     'tiempos_id' => $request['tiempos_id'],
@@ -70,7 +72,6 @@ class AnunciosController extends Controller
                 Anuncios::create($request->all());
             }
             return redirect()->route('establecimiento.show', $request['establecimientos_id']);
-
         }else{
             return 'usuario'; 
         }
@@ -84,7 +85,20 @@ class AnunciosController extends Controller
      */
     public function show(Anuncios $anuncios)
     {
-        //
+        $response['titulo'] = $anuncios->titulo;
+        $response['establecimiento_nombre'] = $anuncios->establecimiento['nombre'];
+        $response['establecimiento_localidad'] = $anuncios->establecimiento['localidad']->nombre;
+        $response['img'] = $anuncios->img;
+        $response['delivery'] = $anuncios->establecimiento['delivery'];
+        $response['descripcion'] = $anuncios->descripcion;
+        $response['telefono'] = "protection";
+        if($anuncios->establecimiento['protection'] == 1 && !Auth::user() == null){
+            $response['telefono'] = $anuncios->establecimiento['telefono'];
+        }elseif($anuncios->establecimiento['protection'] == 0){
+            $response['telefono'] = $anuncios->establecimiento['telefono'];
+        }
+
+        return $response;
     }
 
     /**
@@ -107,9 +121,36 @@ class AnunciosController extends Controller
      * @param  \App\Models\Anuncios  $anuncios
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAnunciosRequest $request, Anuncios $anuncios)
+    public function update(Request $request, Anuncios $anuncios)
     {
-        //
+        $anuncio = Anuncios::find($request->id);
+        if(! ($request->titulo == $anuncios->titulo)){
+            $request->validate(['titulo' => 'required|max:25']);
+        }
+
+        $request->validate([
+            'titulo' => 'required|max:25',
+            'descripcion' => 'required|max:255',
+            'tiempos_id' => 'required',
+        ]);
+
+        if(isset($request['img'])){
+            $url_img = $request->file('img')->store('public/anuncios');
+            $url = Storage::url($url_img);
+            if(!$anuncio->img==null){
+                unlink(str_replace('/storage', 'storage', $anuncio->img));
+            }
+            $anuncio->img = $url;
+        }
+
+        $anuncio->titulo = $request['titulo'];
+        $anuncio->descripcion = $request['descripcion'];
+        $anuncio->tiempos_id = $request['tiempos_id'];
+        $anuncio->updated_at = Carbon::now();
+        
+        $anuncio->save();
+        return redirect()->route('establecimiento.show', $request['establecimientos_id']);
+        
     }
 
     /**
@@ -118,8 +159,17 @@ class AnunciosController extends Controller
      * @param  \App\Models\Anuncios  $anuncios
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Anuncios $anuncios)
+    public function destroy(Anuncios $anuncio)
     {
-        //
+        try{
+            $anuncio->delete();
+            if(!$anuncio->img==null){
+                unlink(str_replace('/storage', 'storage', $anuncio->img));
+            }
+            return response()->json(['status'=>200] , 200);
+        }catch(Exception $e){
+            //return response()->json(['Error!'=>'ErrorToShow  -> '.$e->getMessage()] , 500);
+            return $e->getMessage();
+        }
     }
 }

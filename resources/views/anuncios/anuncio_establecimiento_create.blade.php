@@ -10,12 +10,13 @@
         <!--<img src="/storage/logos/kRSMBxajk8ziMma8KglWVjDXhdLdfLiMKz2dpgD9.png" alt=""> -->
         <div class="mt-5 row justify-content-center">
             
-            <form class="col-md-9 col-xs-12 card card-body"  method="POST" enctype="multipart/form-data" action="{{ route('anuncio_establecimiento.store') }}">
+            <form class="col-md-9 col-xs-12 card card-body" method="POST" enctype="multipart/form-data" action="{{ route('anuncio_establecimiento.store') }}">
                 @csrf
 
                 <input type="hidden" name="establecimientos_id" id="establecimientos_id" value="{{$establecimiento->id}}">
                 <input type="hidden" name="users_id" id="users_id" value="{{ Auth::user()->id }}">
                 <input type="hidden" name="localidades_id" id="localidades_id" value="{{$establecimiento->localidades_id}}">
+                <input type="hidden" name="categorias_id" id="categorias_id" value="{{$establecimiento->categoria['id']}}">
 
                 <fieldset class="border p-1 mt-1 mb-3 row">
                     <legend class="text-primary px-2 color-ranita bold fm-releway text-capitalize">{{$establecimiento->nombre}}</legend>
@@ -98,13 +99,11 @@
                         <option value="" selected disabled>-- Seleccione --</option>
     
                         @foreach ($tiempos as $tiempo)
-                            @if ($tiempo->id < 5)
                             <option
                             class="text-capitalize"
                             value="{{$tiempo->id}}"
                             {{ old('tiempos_id') == $tiempo->id  ? 'selected' : '' }}
                             >{{$tiempo->descripcion}}</option>
-                            @endif
                         @endforeach
                     </select>
                     @error('tiempos_id')

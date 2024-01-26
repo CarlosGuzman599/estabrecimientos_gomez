@@ -23,9 +23,9 @@
 
           <div class="col-3 p-0 m-0 d-flex p-1">
             @if ($eo->logo == null)
-            <img class="bussine-img rounded" src="/storage/logos/default/{{$eo->categorias_id}}.png">
+              <img class="bussine-img rounded shadow" src="/storage/logos/default/{{$eo->categorias_id}}.png">
             @else
-              <img class="bussine-img rounded shadow" src="{{$eo->logo}}" alt="/storage/logos/default.png">
+              <img class="bussine-img rounded shadow" src="{{$eo->logo}}" alt="/storage/logos/default/{{$eo->categorias_id}}.png">
             @endif
           </div>
 
@@ -49,5 +49,3 @@
   </div>
 
 @endsection
-
-

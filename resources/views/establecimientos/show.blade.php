@@ -50,7 +50,7 @@
           <div class="col-4 row ml-1" name="{{$anuncio->titulo}}" id="{{$anuncio->id}}">
             <!-- <a href="" class="btn-function no-hover"><img class="btn-function" src="/storage/icons/tags.png"></a> -->
             <a href="{{ route('anuncio_establecimiento.edit', $anuncio->id) }}" class="btn-function no-hover"><img class="btn-function" src="/storage/icons/edit.png"></a>
-            <img class="btn-function" src="/storage/icons/delete.png">
+            <img class="btn-function delete-anuncio" src="/storage/icons/delete.png">
           </div>
 
         </div>
@@ -59,11 +59,10 @@
   </div>
 @endsection
 
-
 @section('scripts')
+<script src="{{ asset('js/establecimientos_show.js') }}" defer></script>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
   <script src="https://unpkg.com/esri-leaflet" defer></script>
   <script src="https://unpkg.com/esri-leaflet-geocoder" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js" integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous" defer></script>
 @endsection
-

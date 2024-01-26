@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             'name'=>'Mayra Azucena Ignacio Encarnacion',
             'email'=>'gacita_bella@gmail.com',
             'phone'=>'3411785799',
-            'localidad_users_id'=>1,
+            'localidad_users_id'=>4,
             'email_verified_at'=>Carbon::now(),
             'password'=>Hash::make('gacita599'),
             'created_at'=>Carbon::now(),

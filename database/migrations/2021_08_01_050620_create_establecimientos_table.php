@@ -41,6 +41,7 @@ class CreateEstablecimientosTable extends Migration
             $table->foreignId('categorias_id')->references('id')->on('categorias');
             $table->foreignId('localidades_id')->references('id')->on('localidades');
             $table->string('logo')->nullable();
+            $table->char('protection');
             $table->char('delivery');
             $table->string('direccion');
             $table->string('colonia');

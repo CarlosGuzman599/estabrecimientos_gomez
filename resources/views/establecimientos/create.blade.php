@@ -88,6 +88,25 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="protection">Proctecion</label>
+                    <p class="bussine-detail mt-0 color-red">Esta funcion permite mostrar o ocultar numero telefonico a personas no registradas en la aplicacion. Aplica en anuncios</p>
+                    <select
+                        class="form-control @error('protection') is-invalid @enderror"
+                        name="protection"
+                        id="protection"
+                    >
+                        <option selected disabled>-- Seleccione --</option>
+                        <option value="1" {{ old('protection') == "1"  ? 'selected' : '' }}>Si</option>
+                        <option value="0" {{ old('protection') == "0"  ? 'selected' : '' }}>No</option>
+    
+                    </select>
+                    @error('protection')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
 
                 <div class="form-group">
                     <label for="delivery">Servicio a domicilio</label>
