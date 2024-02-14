@@ -74,6 +74,7 @@
     -webkit-box-shadow: -8px 15px 38px -7px rgba(0,0,0,0.77);
     -moz-box-shadow: -8px 15px 38px -7px rgba(0,0,0,0.77);
     bottom: 0;
+    z-index: 10000!important;
 }
 
 .text-bold{
@@ -243,8 +244,10 @@
 }
 
 .img-modal{
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    width: 100%!important;
+    display: block;
+    margin: 0 auto!important;
 }
 
 .encabezado-anuncio{
@@ -287,3 +290,8 @@
     border-radius: 10px 10px 10px 10px;
 }
 
+#modal-img{
+    display: block!important;
+    margin: 0 auto!important;
+    width: 90%;
+}

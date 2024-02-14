@@ -31,11 +31,11 @@
                                     <i class="fab fa-whatsapp mx-1 fs-2 mt-2 protection"></i>
                                     <i class="fas fa-phone-alt mx-1 fs-2 mt-2 protection"></i>
                                 @else
-                                    <a target="_blank" href="https://wa.me/{{ $anuncio->establecimiento['telefono'] }}?text=Hola soy {{Auth::user()->name}}, mire tu anuncio de {{$anuncio->titulo}} en la Ranita... "><i class="fab fa-whatsapp color-green mx-1 fs-2 mt-2"></i></a>
+                                    <a target="_blank" href="https://wa.me/52{{ $anuncio->establecimiento['telefono'] }}?text=Hola soy {{Auth::user()->name}}, mire tu anuncio de {{$anuncio->titulo}} en la Ranita "><i class="fab fa-whatsapp color-green mx-1 fs-2 mt-2"></i></a>
                                     <a href="tel:+52{{ $anuncio->establecimiento['telefono'] }}"><i class="fas fa-phone-alt color-blue mx-1 fs-2 mt-2"></i></a>
                                 @endguest
                             @else
-                                <a target="_blank" href="https://wa.me/52{{ $anuncio->establecimiento['telefono'] }}?text=Hola, mire tu anuncio de {{$anuncio->titulo}} en la Ranita... "><i class="fab fa-whatsapp color-green mx-1 fs-2 mt-2"></i></a>
+                                <a target="_blank" href="https://wa.me/52{{ $anuncio->establecimiento['telefono'] }}?text=Hola, mire tu anuncio de {{$anuncio->titulo}} en la Ranita "><i class="fab fa-whatsapp color-green mx-1 fs-2 mt-2"></i></a>
                                 <a href="tel:+52{{ $anuncio->establecimiento['telefono'] }}"><i class="fas fa-phone-alt color-blue mx-1 fs-2 mt-2"></i></a>
                             @endif
 
@@ -50,21 +50,21 @@
         <!-- Modal -->
         <div class="modal fade" id="anuncioInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        
+                <div class="modal-content h-75">
+                    <div class="modal-header bg-ranita">
                         <div class="col-12">
-                            <h5 class="modal-title" id="modal-titulo"></h5>
-                            <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                              </button>
+                            <h5 class="modal-title text-center fm-releway-extra-bold" id="modal-titulo"></h5>
                         </div>
-                        <img class="img-modal" src="/storage/anuncios/vgfG8aHll2ZPX5wDakq4LgmXULk0PNaaW8qfdEFI.jpg" alt="">
                     </div>
 
                     <div class="modal-body">
-                        <p class="text-justify" id="modal-descripcion"></p>
+                        <p class="text-justify fm-releway" id="modal-descripcion"></p>
+                        
+                        <img src="" id="modal-img">
+                        
                     </div>
 
                     <div class="modal-footer row">
@@ -78,9 +78,17 @@
                                 <span id="modal-establecimiento-delivery"></span>
                             </p>
                         </div>
-                        <div class="col-12 row justify-content-center">
-                            <button type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary mx-1">Save changes</button>
+                        <div class="col-12 row justify-content-center" id="modal-contact">
+
+                            <button class="btn btn-danger mx-1 protection d-none" id="modal-btn-protection"> 
+                                <i class="fab fa-whatsapp mx-1 fs-2"></i>
+                                <i class="fas fa-phone-alt mx-1 fs-2"></i>
+                            </button>
+
+                            <div class="row d-none" id="modal-information">
+                                <a class="col-4 mx-2 btn btn-info" id="modal-call" href=""><i class="fas fa-phone-alt color-blue"></i></a>
+                                <a target="_blank" class="col-4 mx-2 btn btn-success" id="modal-whatsapp" href=""><i class="fab fa-whatsapp color-green"></i></a>
+                            </div>
                         </div>
                         
                     </div>

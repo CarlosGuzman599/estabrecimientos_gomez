@@ -9,6 +9,7 @@ use App\Models\Anuncios;
 use Illuminate\Http\Request;
 use App\Models\Establecimiento;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -109,6 +110,11 @@ class AnunciosController extends Controller
      */
     public function edit(Anuncios $anuncio)
     {
+
+        if(!(Auth::user()->id == $anuncio->users_id)){
+            abort(404);
+        }
+
         $tiempos = Tiempos::all();
         $establecimiento = Establecimiento::find($anuncio->establecimientos_id);
         return view('anuncios.anuncio_establecimiento_edit', compact('tiempos', 'establecimiento', 'anuncio'));
@@ -124,6 +130,11 @@ class AnunciosController extends Controller
     public function update(Request $request, Anuncios $anuncios)
     {
         $anuncio = Anuncios::find($request->id);
+
+        if(!(Auth::user()->id == $anuncio->users_id)){
+            abort(404);
+        }
+
         if(! ($request->titulo == $anuncios->titulo)){
             $request->validate(['titulo' => 'required|max:25']);
         }
@@ -161,6 +172,10 @@ class AnunciosController extends Controller
      */
     public function destroy(Anuncios $anuncio)
     {
+        if(!(Auth::user()->id == $anuncio->users_id)){
+            abort(404);
+        }
+        
         try{
             $anuncio->delete();
             if(!$anuncio->img==null){

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anuncios;
 use Exception;
-
 use Carbon\Carbon;
+
+use App\Models\Anuncios;
 use App\Models\Categorias;
 use App\Models\Localidades;
 use Illuminate\Http\Request;
 use App\Models\Establecimiento;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EstablecimientoController extends Controller
@@ -113,6 +114,9 @@ class EstablecimientoController extends Controller
      */
     public function edit(Establecimiento $establecimiento)
     {
+        if(!(Auth::user()->id == $establecimiento->users_id)){
+            abort(404);
+        }
         $categorias = Categorias::all();
         $localidades = Localidades::all();
         return view('establecimientos.edit', compact('categorias','localidades', 'establecimiento'));
