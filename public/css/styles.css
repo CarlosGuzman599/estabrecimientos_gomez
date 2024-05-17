@@ -3,6 +3,11 @@
     --color-ranita: #85dfab;
 }
 
+html, body {  
+    margin:0px!important;
+    height:100%!important;
+} 
+
 .fm-sans{
     font-family: 'Open Sans', sans-serif!important;
 }
@@ -102,7 +107,7 @@
 }
 
 .bg-ranita-wallpaper{
-    background-color: #f0f2f5;
+    background-color: #f0f5f2;
 }
 
 .color-ranita{
@@ -111,6 +116,10 @@
 
 .color-red{
     color: red!important;
+}
+
+.bg-black{
+    background-color: rgb(29, 29, 29)!important;
 }
 
 .bg-red{

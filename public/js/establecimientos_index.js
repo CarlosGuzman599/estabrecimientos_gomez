@@ -13,6 +13,7 @@ $(document).ready(function(){
         }).then((result) => {
             if (result.isConfirmed) {
                 $('#container-'+$(this).parent().attr('id')).remove();
+                $.ajax.A
                 $.ajax({
                     type: "delete",
                     url: "/establecimiento/destroy/"+$(this).parent().attr('id'),

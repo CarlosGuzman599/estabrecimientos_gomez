@@ -12,6 +12,9 @@ $(document).ready(function(){
 });
 
 function LounchNotification(Type, Message){
+
+    $
+
     if(Type == 'Ok'){
         $('#notification').addClass('bg-green');
         $('#notification-header').append(`<i class="fas fa-check-circle"></i>` + '    Hecho');
